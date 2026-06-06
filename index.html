@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Splendid Puff — Campus Orders</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="brand-row">
+      <div class="brand-name">Splendid Puff 🧡</div>
+      <div class="brand-badge">Campus Orders</div>
+    </div>
+    <nav class="nav">
+      <button class="nav-btn active" onclick="showTab('order',this)">🛍 Order</button>
+      <button class="nav-btn" onclick="showTab('track',this)">📍 Track</button>
+      <button class="nav-btn" onclick="showTab('admin',this)">⚙️ Admin</button>
+    </nav>
+  </div>
+
+  <!-- ORDER TAB -->
+  <div id="tab-order" class="screen active">
+
+    <!-- Step 1 -->
+    <div id="step-1" class="step active">
+      <div class="section-label">What would you like?</div>
+      <div class="product-grid" id="product-grid"></div>
+
+      <div id="flavour-wrap" style="display:none">
+        <div class="section-label">Puff-puff flavour</div>
+        <div class="tag-row" id="flavour-tags">
+          <span class="tag selected" onclick="pickFlavour(this,'Classic')">Classic</span>
+          <span class="tag" onclick="pickFlavour(this,'Coconut')">Coconut</span>
+          <span class="tag" onclick="pickFlavour(this,'Cinnamon')">Cinnamon</span>
+          <span class="tag" onclick="pickFlavour(this,'Spicy')">Spicy</span>
+          <span class="tag" onclick="pickFlavour(this,'Mixed')">Mixed</span>
+        </div>
+      </div>
+
+      <div class="section-label">Campus</div>
+      <div class="tag-row">
+        <span class="tag selected" onclick="pickCampus(this,'Minna')">Minna</span>
+        <span class="tag" onclick="pickCampus(this,'Zaria')">Zaria</span>
+      </div>
+
+      <div class="section-label">Anonymous gift?</div>
+      <label class="gift-toggle-card" id="gift-card">
+        <input type="checkbox" id="gift-check" onchange="toggleGift()">
+        <div>
+          <div class="gift-label">🎁 Send as a surprise gift</div>
+          <div class="gift-sub">Recipient gets puff-puff with your secret note</div>
+        </div>
+      </label>
+      <div id="gift-fields" style="display:none;margin-top:0.75rem">
+        <div class="form-group">
+          <label>Recipient's name</label>
+          <input type="text" id="recipient-name" placeholder="Who is this for?">
+        </div>
+        <div class="form-group">
+          <label>Your note <span class="optional">(optional)</span></label>
+          <textarea id="gift-note" placeholder="Write something sweet..."></textarea>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="goStep(2)">Continue →</button>
+    </div>
+
+    <!-- Step 2 -->
+    <div id="step-2" class="step">
+      <button class="btn-ghost" onclick="goStep(1)">← Back</button>
+
+      <div class="section-label">Your details</div>
+      <div class="form-group">
+        <label>Full name</label>
+        <input type="text" id="cust-name" placeholder="Your name" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label>WhatsApp number</label>
+        <input type="tel" id="cust-phone" placeholder="080..." autocomplete="tel">
+      </div>
+      <div class="form-group">
+        <label>Pickup / delivery location</label>
+        <input type="text" id="cust-location" placeholder="e.g. Faculty of Science, block A">
+      </div>
+      <div class="form-group">
+        <label>Special instructions <span class="optional">(optional)</span></label>
+        <textarea id="cust-notes" placeholder="Anything we should know..."></textarea>
+      </div>
+
+      <div class="section-label">Order summary</div>
+      <div class="summary-card" id="order-summary-card"></div>
+
+      <div class="section-label">Pay by bank transfer</div>
+      <div class="bank-card">
+        <div class="bank-title">🏦 Transfer to this account</div>
+        <div class="bank-acct" id="bank-acct-display"></div>
+        <div class="bank-detail" id="bank-name-display"></div>
+        <div class="bank-detail" id="bank-holder-display"></div>
+        <div class="bank-ref-note">📌 Use your WhatsApp number as the transfer reference</div>
+      </div>
+
+      <div class="section-label">Upload payment receipt</div>
+      <div class="upload-zone" id="upload-zone" onclick="document.getElementById('receipt-input').click()">
+        <div class="upload-icon">📎</div>
+        <div class="upload-text">Tap to upload screenshot or photo of transfer</div>
+        <div class="upload-filename" id="upload-filename"></div>
+      </div>
+      <input type="file" id="receipt-input" accept="image/*,application/pdf" onchange="handleUpload(this)">
+
+      <button class="btn-primary" id="btn-submit" onclick="submitOrder()">Place order</button>
+    </div>
+
+    <!-- Step 3: Success -->
+    <div id="step-3" class="step">
+      <div class="success-wrap">
+        <div class="success-emoji">🎉</div>
+        <div class="success-title">Order received!</div>
+        <div class="success-sub">We've got your order and will confirm on WhatsApp shortly.</div>
+        <div class="order-ref" id="success-ref">SP-0000</div>
+        <div class="success-sub">Save your reference to track your order.</div>
+        <button class="wa-btn" onclick="openWhatsApp()">💬 Message us on WhatsApp</button>
+        <button class="btn-ghost full-width" style="margin-top:0.75rem" onclick="resetOrder()">Place another order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRACK TAB -->
+  <div id="tab-track" class="screen">
+    <div class="section-label" style="margin-top:0">Track your order</div>
+    <div class="form-group">
+      <label>Order reference</label>
+      <input type="text" id="track-input" placeholder="SP-0001" style="text-transform:uppercase;letter-spacing:2px" oninput="this.value=this.value.toUpperCase()">
+    </div>
+    <button class="btn-primary" onclick="trackOrder()">Look up order</button>
+    <div id="track-result"></div>
+  </div>
+
+  <!-- ADMIN TAB -->
+  <div id="tab-admin" class="screen">
+    <div id="admin-lock-screen">
+      <div class="admin-lock">
+        <div class="admin-lock-icon">🔒</div>
+        <div class="admin-lock-title">Admin access</div>
+        <div class="admin-lock-sub">Enter your PIN to continue</div>
+        <div class="form-group" style="margin-top:1.25rem">
+          <input type="password" id="admin-pin-input" placeholder="Enter PIN" style="text-align:center;letter-spacing:4px;font-size:20px" maxlength="6">
+        </div>
+        <button class="btn-primary" onclick="checkAdminPin()">Unlock</button>
+      </div>
+    </div>
+    <div id="admin-panel" style="display:none">
+      <div class="admin-stats">
+        <div class="stat-card"><div class="stat-val" id="stat-total">0</div><div class="stat-lbl">Orders</div></div>
+        <div class="stat-card"><div class="stat-val" id="stat-pending">0</div><div class="stat-lbl">Pending</div></div>
+        <div class="stat-card"><div class="stat-val" id="stat-revenue">₦0</div><div class="stat-lbl">Revenue</div></div>
+      </div>
+      <div class="filter-row">
+        <div class="filter-chip active" onclick="filterOrders('all',this)">All</div>
+        <div class="filter-chip" onclick="filterOrders('pending',this)">Pending</div>
+        <div class="filter-chip" onclick="filterOrders('confirmed',this)">Confirmed</div>
+        <div class="filter-chip" onclick="filterOrders('ready',this)">Ready</div>
+        <div class="filter-chip" onclick="filterOrders('completed',this)">Completed</div>
+      </div>
+      <div id="orders-list"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
