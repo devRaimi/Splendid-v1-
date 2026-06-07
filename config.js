@@ -29,7 +29,7 @@ const CONFIG = {
   // ── Google Sheets webhook ────────────────────────────────────
   // Paste your Apps Script Web App deployment URL here.
   // Leave as empty string "" to use localStorage only (offline mode).
-  SHEET_WEBHOOK_URL: "",
+  SHEET_WEBHOOK_URL: "https://script.google.com/macros/s/AKfycbwEg8xmkq-i1mKalJFv8ptD5xiYozj2RyYtKOzb8x56W0GrxUVA9k_G-_kHbHba7JcxMQ/exec",
 
   // ── Products ─────────────────────────────────────────────────
   PRODUCTS: [
@@ -39,7 +39,7 @@ const CONFIG = {
       emoji: "🍩",
       hasFlavour: true,
       sizes: [
-        { label: "Small (5 pcs)",  price: 300 },
+        { label: "Small (5 pcs)", price: 300 },
         { label: "Medium (10 pcs)", price: 550 },
         { label: "Large (20 pcs)", price: 1000 },
       ]
