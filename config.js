@@ -35,13 +35,24 @@ const CONFIG = {
   PRODUCTS: [
     {
       id: "puff",
-      name: "Puff-Puff",
+      name: "Plain-Puff",
       emoji: "🍩",
       hasFlavour: true,
       sizes: [
-        { label: "Small (5 pcs)", price: 300 },
-        { label: "Medium (10 pcs)", price: 550 },
-        { label: "Large (20 pcs)", price: 1000 },
+        { label: "Small (5 pcs)", price: 600 },
+        // { label: "Medium (10 pcs)", price: 1200 },
+        { label: "Large (10 pcs)", price: 1200 },
+      ]
+    },
+    {
+      id: "puff",
+      name: "Spicy-Puff",
+      emoji: "🍩",
+      hasFlavour: true,
+      sizes: [
+        { label: "Small (5 pcs)", price: 750 },
+        // { label: "Medium (10 pcs)", price: 1500 },
+        { label: "Large (10 pcs)", price: 1500 },
       ]
     },
     {
@@ -50,18 +61,18 @@ const CONFIG = {
       emoji: "🥤",
       hasFlavour: false,
       sizes: [
-        { label: "Small (35cl)", price: 300 },
-        { label: "Large (50cl)", price: 500 },
+        { label: "35cl", price: 600 },
+        // { label: "Large (50cl)", price: 500 },
       ]
     },
     {
       id: "kebab",
-      name: "Peppered Kebab",
+      name: "Puff Kebab",
       emoji: "🍢",
       hasFlavour: false,
       sizes: [
-        { label: "2 sticks", price: 400 },
-        { label: "4 sticks", price: 750 },
+        { label: "1 stick", price: 2000 },
+        // { label: "4 sticks", price: 750 },
       ]
     }
   ],
@@ -70,5 +81,5 @@ const CONFIG = {
   CAMPUSES: ["Minna", "Zaria"],
 
   // ── Puff flavours ────────────────────────────────────────────
-  FLAVOURS: ["Classic", "Coconut", "Cinnamon", "Spicy", "Mixed"],
+  FLAVOURS: ["Spicy", "Plain", "Mixed"],
 };
