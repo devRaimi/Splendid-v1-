@@ -29,7 +29,7 @@ const CONFIG = {
   // ── Google Sheets webhook ────────────────────────────────────
   // Paste your Apps Script Web App deployment URL here.
   // Leave as empty string "" to use localStorage only (offline mode).
-  SHEET_WEBHOOK_URL: "https://script.google.com/macros/library/d/1FkGdrAE3CEgSzSrDIZDiPYHh_SLTnIPXLD6MTspklBBit_9GSDX5y4nA/1",
+  SHEET_WEBHOOK_URL: "https://script.google.com/macros/s/AKfycbwhtD3gZD74ZI84K6l8s3VJzONpEzPl68gmWWUQ_Ve9jGCbSQG16hT0yMneriym8knKvw/exec",
   // SHEET_WEBHOOK_UR: 'https://script.google.com/macros/s/AKfycbwEg8xmkq-i1mKalJFv8ptD5xiYozj2RyYtKOzb8x56W0GrxUVA9k_G-_kHbHba7JcxMQ/exec',
   // SHEET_WEBHOOK_UR: '',
 
