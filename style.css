@@ -444,3 +444,45 @@ select.size-select:focus { outline: none; border-color: var(--orange); }
 /* ── MISC ── */
 .empty { text-align: center; padding: 3rem 1rem; color: var(--gray-400); font-size: 14px; }
 .empty-icon { font-size: 36px; margin-bottom: 10px; }
+
+/* ── ORDER TYPE SELECTOR ── */
+.order-type-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+.order-type-card {
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--white);
+}
+.order-type-card:hover { border-color: var(--orange); }
+.order-type-card.selected { border-color: var(--orange); background: var(--orange-light); }
+.order-type-icon { font-size: 26px; margin-bottom: 6px; }
+.order-type-title { font-size: 14px; font-weight: 600; color: var(--black); margin-bottom: 3px; }
+.order-type-sub { font-size: 11px; color: var(--gray-400); line-height: 1.4; }
+
+/* ── INFO BANNER ── */
+.info-banner {
+  background: #1a1a2e;
+  color: #c4b5fd;
+  border: 1px solid #3b2f6e;
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+/* ── ANONYMOUS GIFT SECTION CARD ── */
+.anon-section-card {
+  background: var(--gray-50);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+}
+.anon-section-title { font-size: 14px; font-weight: 600; color: var(--black); }
+.anon-section-sub   { font-size: 12px; color: var(--gray-400); margin-top: 2px; }

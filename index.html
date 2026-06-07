@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Splendid Puff — Campus Orders</title>
+  <title>Splendid Puff — Order Now</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -21,79 +21,108 @@
     <nav class="nav">
       <button class="nav-btn active" onclick="showTab('order',this)">🛍 Order</button>
       <button class="nav-btn" onclick="showTab('track',this)">📍 Track</button>
-      <button class="nav-btn" onclick="showTab('admin',this)">⚙️ Admin</button>
     </nav>
   </div>
 
-  <!-- ORDER TAB -->
+  <!-- ═══ ORDER TAB ═══ -->
   <div id="tab-order" class="screen active">
 
-    <!-- Step 1 -->
+    <!-- Step 1: Product + order type selection -->
     <div id="step-1" class="step active">
+
+      <!-- Order type selector -->
+      <div class="section-label">Order type</div>
+      <div class="order-type-row">
+        <div class="order-type-card selected" id="type-normal" onclick="setOrderType('normal')">
+          <div class="order-type-icon">🛍</div>
+          <div class="order-type-title">Normal order</div>
+          <div class="order-type-sub">Order for yourself</div>
+        </div>
+        <div class="order-type-card" id="type-gift" onclick="setOrderType('gift')">
+          <div class="order-type-icon">🎁</div>
+          <div class="order-type-title">Anonymous gift</div>
+          <div class="order-type-sub">Surprise someone — they won't know it's you</div>
+        </div>
+      </div>
+
+      <!-- Gift mode notice -->
+      <div id="gift-notice" class="info-banner" style="display:none">
+        🎁 <strong>Anonymous mode:</strong> Your name stays hidden. We only need your WhatsApp to confirm payment, and the recipient's details for delivery.
+      </div>
+
       <div class="section-label">What would you like?</div>
       <div class="product-grid" id="product-grid"></div>
 
       <div id="flavour-wrap" style="display:none">
         <div class="section-label">Puff-puff flavour</div>
-        <div class="tag-row" id="flavour-tags">
-          <span class="tag selected" onclick="pickFlavour(this,'Classic')">Classic</span>
-          <span class="tag" onclick="pickFlavour(this,'Coconut')">Coconut</span>
-          <span class="tag" onclick="pickFlavour(this,'Cinnamon')">Cinnamon</span>
-          <span class="tag" onclick="pickFlavour(this,'Spicy')">Spicy</span>
-          <span class="tag" onclick="pickFlavour(this,'Mixed')">Mixed</span>
-        </div>
+        <div class="tag-row" id="flavour-tags"></div>
       </div>
 
       <div class="section-label">Campus</div>
-      <div class="tag-row">
-        <span class="tag selected" onclick="pickCampus(this,'Minna')">Minna</span>
-        <span class="tag" onclick="pickCampus(this,'Zaria')">Zaria</span>
-      </div>
-
-      <div class="section-label">Anonymous gift?</div>
-      <label class="gift-toggle-card" id="gift-card">
-        <input type="checkbox" id="gift-check" onchange="toggleGift()">
-        <div>
-          <div class="gift-label">🎁 Send as a surprise gift</div>
-          <div class="gift-sub">Recipient gets puff-puff with your secret note</div>
-        </div>
-      </label>
-      <div id="gift-fields" style="display:none;margin-top:0.75rem">
-        <div class="form-group">
-          <label>Recipient's name</label>
-          <input type="text" id="recipient-name" placeholder="Who is this for?">
-        </div>
-        <div class="form-group">
-          <label>Your note <span class="optional">(optional)</span></label>
-          <textarea id="gift-note" placeholder="Write something sweet..."></textarea>
-        </div>
-      </div>
+      <div class="tag-row" id="campus-tags"></div>
 
       <button class="btn-primary" onclick="goStep(2)">Continue →</button>
     </div>
 
-    <!-- Step 2 -->
+    <!-- Step 2: Sender + recipient details -->
     <div id="step-2" class="step">
       <button class="btn-ghost" onclick="goStep(1)">← Back</button>
 
-      <div class="section-label">Your details</div>
-      <div class="form-group">
-        <label>Full name</label>
-        <input type="text" id="cust-name" placeholder="Your name" autocomplete="name">
-      </div>
-      <div class="form-group">
-        <label>WhatsApp number</label>
-        <input type="tel" id="cust-phone" placeholder="080..." autocomplete="tel">
-      </div>
-      <div class="form-group">
-        <label>Pickup / delivery location</label>
-        <input type="text" id="cust-location" placeholder="e.g. Faculty of Science, block A">
-      </div>
-      <div class="form-group">
-        <label>Special instructions <span class="optional">(optional)</span></label>
-        <textarea id="cust-notes" placeholder="Anything we should know..."></textarea>
+      <!-- NORMAL ORDER FIELDS -->
+      <div id="normal-fields">
+        <div class="section-label">Your details</div>
+        <div class="form-group">
+          <label>Full name</label>
+          <input type="text" id="cust-name" placeholder="Your name" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label>WhatsApp number</label>
+          <input type="tel" id="cust-phone" placeholder="080..." autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <label>Pickup / delivery location</label>
+          <input type="text" id="cust-location" placeholder="e.g. Faculty of Science, Block A">
+        </div>
+        <div class="form-group">
+          <label>Special instructions <span class="optional">(optional)</span></label>
+          <textarea id="cust-notes" placeholder="Anything we should know..."></textarea>
+        </div>
       </div>
 
+      <!-- ANONYMOUS GIFT FIELDS -->
+      <div id="gift-fields" style="display:none">
+        <div class="anon-section-card">
+          <div class="anon-section-title">🕵️ Your contact (private)</div>
+          <div class="anon-section-sub">Only used to confirm your payment — never shown to recipient</div>
+          <div class="form-group" style="margin-top:1rem">
+            <label>Your WhatsApp number</label>
+            <input type="tel" id="sender-phone" placeholder="080..." autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="anon-section-card" style="margin-top:1rem">
+          <div class="anon-section-title">🎁 Recipient details</div>
+          <div class="anon-section-sub">Who is receiving the gift?</div>
+          <div class="form-group" style="margin-top:1rem">
+            <label>Recipient's name</label>
+            <input type="text" id="recipient-name" placeholder="Who is this for?">
+          </div>
+          <div class="form-group">
+            <label>Recipient's WhatsApp <span class="optional">(optional)</span></label>
+            <input type="tel" id="recipient-phone" placeholder="080... (so we can notify them)">
+          </div>
+          <div class="form-group">
+            <label>Delivery location</label>
+            <input type="text" id="recipient-location" placeholder="Where should we deliver?">
+          </div>
+          <div class="form-group">
+            <label>Your secret note <span class="optional">(optional)</span></label>
+            <textarea id="gift-note" placeholder="Write something sweet... they'll love it 🧡"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- ORDER SUMMARY + PAYMENT (shared) -->
       <div class="section-label">Order summary</div>
       <div class="summary-card" id="order-summary-card"></div>
 
@@ -121,8 +150,8 @@
     <div id="step-3" class="step">
       <div class="success-wrap">
         <div class="success-emoji">🎉</div>
-        <div class="success-title">Order received!</div>
-        <div class="success-sub">We've got your order and will confirm on WhatsApp shortly.</div>
+        <div class="success-title" id="success-title">Order received!</div>
+        <div class="success-sub" id="success-msg">We've got your order and will confirm on WhatsApp shortly.</div>
         <div class="order-ref" id="success-ref">SP-0000</div>
         <div class="success-sub">Save your reference to track your order.</div>
         <button class="wa-btn" onclick="openWhatsApp()">💬 Message us on WhatsApp</button>
@@ -131,7 +160,7 @@
     </div>
   </div>
 
-  <!-- TRACK TAB -->
+  <!-- ═══ TRACK TAB ═══ -->
   <div id="tab-track" class="screen">
     <div class="section-label" style="margin-top:0">Track your order</div>
     <div class="form-group">
@@ -142,35 +171,6 @@
     <div id="track-result"></div>
   </div>
 
-  <!-- ADMIN TAB -->
-  <div id="tab-admin" class="screen">
-    <div id="admin-lock-screen">
-      <div class="admin-lock">
-        <div class="admin-lock-icon">🔒</div>
-        <div class="admin-lock-title">Admin access</div>
-        <div class="admin-lock-sub">Enter your PIN to continue</div>
-        <div class="form-group" style="margin-top:1.25rem">
-          <input type="password" id="admin-pin-input" placeholder="Enter PIN" style="text-align:center;letter-spacing:4px;font-size:20px" maxlength="6">
-        </div>
-        <button class="btn-primary" onclick="checkAdminPin()">Unlock</button>
-      </div>
-    </div>
-    <div id="admin-panel" style="display:none">
-      <div class="admin-stats">
-        <div class="stat-card"><div class="stat-val" id="stat-total">0</div><div class="stat-lbl">Orders</div></div>
-        <div class="stat-card"><div class="stat-val" id="stat-pending">0</div><div class="stat-lbl">Pending</div></div>
-        <div class="stat-card"><div class="stat-val" id="stat-revenue">₦0</div><div class="stat-lbl">Revenue</div></div>
-      </div>
-      <div class="filter-row">
-        <div class="filter-chip active" onclick="filterOrders('all',this)">All</div>
-        <div class="filter-chip" onclick="filterOrders('pending',this)">Pending</div>
-        <div class="filter-chip" onclick="filterOrders('confirmed',this)">Confirmed</div>
-        <div class="filter-chip" onclick="filterOrders('ready',this)">Ready</div>
-        <div class="filter-chip" onclick="filterOrders('completed',this)">Completed</div>
-      </div>
-      <div id="orders-list"></div>
-    </div>
-  </div>
 </div>
 
 <div class="toast" id="toast"></div>

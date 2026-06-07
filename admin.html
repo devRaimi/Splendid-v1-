@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Splendid Puff — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Bebas+Neue&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Admin-only styles */
+    .admin-header {
+      background: var(--black);
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .admin-brand { font-family: 'Playfair Display', serif; color: var(--orange); font-size: 18px; }
+    .admin-brand span { color: rgba(255,255,255,0.4); font-family: 'DM Sans', sans-serif; font-size: 12px; display: block; margin-top: 1px; }
+    .logout-btn {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.6);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .logout-btn:hover { background: rgba(255,255,255,0.15); color: white; }
+
+    /* Lock screen */
+    .lock-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      background: var(--black);
+    }
+    .lock-logo { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--orange); margin-bottom: 0.25rem; }
+    .lock-sub { font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 2.5rem; }
+    .lock-icon { font-size: 44px; margin-bottom: 1.5rem; }
+    .lock-card {
+      background: #222;
+      border: 1px solid #333;
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      width: 100%;
+      max-width: 340px;
+    }
+    .lock-title { font-size: 17px; font-weight: 600; color: white; margin-bottom: 0.4rem; }
+    .lock-hint { font-size: 13px; color: rgba(255,255,255,0.35); margin-bottom: 1.5rem; }
+    .pin-input {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 24px;
+      letter-spacing: 8px;
+      text-align: center;
+      padding: 14px;
+      background: #111;
+      border: 1.5px solid #444;
+      border-radius: var(--radius);
+      color: white;
+      margin-bottom: 1rem;
+      transition: border-color 0.2s;
+    }
+    .pin-input:focus { outline: none; border-color: var(--orange); }
+    .pin-input.shake { animation: shake 0.4s ease; }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+    .btn-unlock {
+      width: 100%;
+      padding: 14px;
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-unlock:hover { opacity: 0.9; }
+
+    /* Panel */
+    .admin-panel { display: none; }
+    .panel-body { padding: 1.25rem; padding-bottom: 2rem; }
+
+    /* Order detail expand */
+    .order-detail-row {
+      padding: 10px 0;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--gray-600);
+      display: none;
+    }
+    .order-detail-row.open { display: block; }
+    .detail-grid { display: grid; grid-template-columns: 110px 1fr; gap: 6px 12px; }
+    .detail-key { color: var(--gray-400); font-size: 12px; }
+    .detail-val { color: var(--black); font-weight: 500; font-size: 13px; }
+    .anon-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #1a1a2e;
+      color: #a78bfa;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+    .gift-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--orange-light);
+      color: var(--orange);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+    .order-card { cursor: pointer; }
+    .expand-icon { font-size: 11px; color: var(--gray-400); margin-left: auto; transition: transform 0.2s; }
+    .order-card.expanded .expand-icon { transform: rotate(180deg); }
+
+    /* Refresh btn */
+    .refresh-btn {
+      background: none;
+      border: 1.5px solid var(--border);
+      color: var(--gray-600);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .refresh-btn:hover { border-color: var(--orange); color: var(--orange); }
+    .row-between { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+
+<!-- LOCK SCREEN -->
+<div class="lock-screen" id="lock-screen">
+  <div class="lock-logo">Splendid Puff 🧡</div>
+  <div class="lock-sub">Staff portal</div>
+  <div class="lock-icon">🔐</div>
+  <div class="lock-card">
+    <div class="lock-title">Admin access</div>
+    <div class="lock-hint">Enter your staff PIN to continue</div>
+    <input type="password" class="pin-input" id="pin-input" placeholder="••••" maxlength="6"
+      onkeydown="if(event.key==='Enter') checkPin()">
+    <button class="btn-unlock" onclick="checkPin()">Unlock</button>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="admin-panel">
+  <div class="admin-header">
+    <div class="admin-brand">
+      Splendid Puff 🧡
+      <span>Admin Panel</span>
+    </div>
+    <button class="logout-btn" onclick="logout()">Lock 🔒</button>
+  </div>
+
+  <div class="panel-body">
+    <!-- Stats -->
+    <div class="admin-stats">
+      <div class="stat-card"><div class="stat-val" id="stat-total">0</div><div class="stat-lbl">Orders</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-pending">0</div><div class="stat-lbl">Pending</div></div>
+      <div class="stat-card"><div class="stat-val" id="stat-revenue">₦0</div><div class="stat-lbl">Revenue</div></div>
+    </div>
+
+    <!-- Filter + refresh -->
+    <div class="row-between">
+      <div class="filter-row" style="margin-bottom:0;flex:1">
+        <div class="filter-chip active" onclick="filterOrders('all',this)">All</div>
+        <div class="filter-chip" onclick="filterOrders('pending',this)">Pending</div>
+        <div class="filter-chip" onclick="filterOrders('confirmed',this)">Confirmed</div>
+        <div class="filter-chip" onclick="filterOrders('ready',this)">Ready</div>
+        <div class="filter-chip" onclick="filterOrders('completed',this)">Completed</div>
+      </div>
+      <button class="refresh-btn" onclick="refreshAdmin()" style="margin-left:10px;flex-shrink:0">↻ Refresh</button>
+    </div>
+
+    <div id="orders-list" style="margin-top:1rem"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="config.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
