@@ -16,12 +16,12 @@
 const CONFIG = {
   // ── Business info ─────────────────────────────────────────────
   BUSINESS_NAME: "Splendid Puff Nigeria",
-  WHATSAPP_NUMBER: "2348000000000",   // International format, no +
+  WHATSAPP_NUMBER: "2349040233239",   // International format, no +
 
   // ── Bank details ─────────────────────────────────────────────
-  BANK_ACCOUNT_NUMBER: "0123456789",
-  BANK_NAME: "First Bank",
-  BANK_ACCOUNT_HOLDER: "Splendid Puff Nigeria",
+  BANK_ACCOUNT_NUMBER: "8115781078",
+  BANK_NAME: "Palmpay",
+  BANK_ACCOUNT_HOLDER: "Splendid Puff",
 
   // ── Admin ────────────────────────────────────────────────────
   ADMIN_PIN: "1234",
